@@ -1,3 +1,5 @@
+/* File: style.css (V9.0 - Dengan Style Riwayat Baru) */
+
 /* Atur font dasar dan latar belakang */
 body {
     font-family: Arial, sans-serif;
@@ -7,7 +9,7 @@ body {
     padding-top: 80px; /* Beri ruang untuk header-nav */
 }
 
-/* --- BARU: Header untuk Tombol Navigasi --- */
+/* Header untuk Tombol Navigasi */
 .header-nav {
     position: fixed;
     top: 0;
@@ -144,8 +146,7 @@ textarea {
 .hidden { display: none; }
 
 
-/* --- BARU: Gaya untuk Modal (Pop-up) --- */
-
+/* Style untuk Modal (Pop-up) */
 #modal-overlay {
     position: fixed;
     top: 0;
@@ -202,46 +203,120 @@ textarea {
     font-size: 16px;
 }
 .modal-content label {
-    margin-top: 0;
+    margin-top: 10px;
 }
 
 #simpan-pengaturan-btn {
     background-color: #007bff;
     color: white;
-    margin-top: 15px;
+    margin-top: 20px; /* Beri jarak dari input terakhir */
 }
 
-/* --- BARU: Gaya untuk Riwayat --- */
+/* Style untuk Searchable Dropdown */
+.search-container {
+    position: relative;
+}
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-sizing: border-box;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.result-item {
+    padding: 12px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+.result-item:last-child {
+    border-bottom: none;
+}
+.result-item:hover {
+    background-color: #f0f0f0;
+}
+.result-item[data-value="__custom"] {
+    background-color: #f8f9fa;
+    color: #0056b3;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Style untuk Tombol Output */
+.output-buttons {
+    display: flex;
+    gap: 10px;
+}
+#tombol-copy {
+    width: auto;
+    flex-grow: 1;
+}
+#tombol-whatsapp {
+    width: auto;
+    flex-grow: 1;
+    background-color: #25D366;
+    color: white;
+}
+#tombol-whatsapp:hover {
+    background-color: #1EAE50;
+}
+
+
+/* ##### PERUBAHAN BESAR V9.0 ADA DI SINI ##### */
+/* --- BARU: Gaya untuk Riwayat V9.0 --- */
 
 #riwayat-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px; /* Jarak antar kartu */
     margin-bottom: 20px;
 }
 
 .riwayat-item {
     padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px; /* Lebih rounded */
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
+    position: relative; /* Wajib untuk tombol hapus */
+    background-color: #fdfdfd;
 }
 .riwayat-item:hover {
-    background-color: #f9f9f9;
+    background-color: #f4f8ff; /* Hover lebih jelas */
+    border-color: #aaccff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.riwayat-item strong {
+/* Info utama (Toko, Tanggal) */
+.riwayat-info {
+    margin-bottom: 10px;
+    padding-right: 25px; /* Beri ruang agar tak tertutup tombol hapus */
+}
+.riwayat-info strong {
     font-size: 18px;
     color: #0056b3;
+    display: block; /* Nama toko di baris sendiri */
+    margin-bottom: 4px;
 }
-.riwayat-item span {
-    font-size: 14px;
-    color: #555;
-    margin-right: 10px;
+.riwayat-info span {
+    font-size: 13px; /* Info tanggal & item lebih kecil */
+    color: #666;
+    margin-right: 12px;
 }
+
+/* Tombol hapus item (di pojok) */
 .riwayat-item .tombol-hapus-item {
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    float: none; /* Hapus float lama */
     color: #dc3545;
     font-weight: bold;
     font-size: 18px;
@@ -251,6 +326,38 @@ textarea {
     padding: 0 5px;
 }
 
+/* Daftar barang di dalam riwayat */
+.riwayat-item-list {
+    list-style-type: none; /* Hilangkan bullet point */
+    margin: 12px 0 0 0;
+    padding: 10px 0 0 0;
+    font-size: 14px;
+    color: #333;
+    border-top: 1px dashed #eee; /* Garis pemisah */
+}
+.riwayat-item-list li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 15px; /* Ruang untuk ikon bullet */
+}
+/* Buat bullet point kustom */
+.riwayat-item-list li::before {
+    content: '›'; /* Ganti bullet dengan panah */
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.riwayat-item-list li strong { /* Untuk (qty) */
+    font-weight: normal;
+    color: #555;
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+/* Tombol Hapus Semua Riwayat */
 #hapus-riwayat-btn {
     background-color: #dc3545;
     color: white;
@@ -258,87 +365,15 @@ textarea {
     font-size: 14px;
     padding: 8px 15px;
 }
-/* ... (SEMUA CSS DARI V5.0 SEBELUMNYA TETAP SAMA) ... */
-/* ... (copy-paste semua dari V5.0) ... */
-
-.hidden { display: none; }
-
-/* --- BARU: Gaya untuk Modal (Pop-up) --- */
-/* ... (style .modal, .modal-header, dll. tetap sama) ... */
-/* ... (style .riwayat-item, dll. tetap sama) ... */
-
-
-/* ##### PERUBAHAN BESAR V6.0 ADA DI SINI ##### */
-/* --- BARU: Gaya untuk Searchable Dropdown --- */
-
-.search-container {
-    position: relative; /* Wajib agar daftar hasil bisa diposisikan */
-}
-
-/* Kotak pencariannya */
-.nama-barang-search {
-    /* Style-nya sudah diatur oleh aturan input[type="text"] */
-    /* Kita bisa tambahkan style khusus jika mau */
-}
-
-/* Kotak daftar hasil pencarian */
-.search-results {
-    position: absolute;
-    top: 100%; /* Muncul tepat di bawah input */
-    left: 0;
+#riwayat-search-input {
+    /* Gunakan style yang sama dengan input lain */
     width: 100%;
-    background-color: #ffffff;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 4px 4px;
+    border-radius: 4px;
     box-sizing: border-box;
-    max-height: 250px; /* Batasi ketinggian, bisa di-scroll */
-    overflow-y: auto;
-    z-index: 10; /* Tampil di atas elemen lain */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Tiap item di dalam hasil pencarian */
-.result-item {
-    padding: 12px 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #f0f0f0;
-}
-.result-item:last-child {
-    border-bottom: none;
-}
-
-/* Efek saat di-hover */
-.result-item:hover {
-    background-color: #f0f0f0;
-}
-
-/* Style khusus untuk item "Produk Custom" */
-.result-item[data-value="__custom"] {
-    background-color: #f8f9fa;
-    color: #0056b3;
-    font-weight: bold;
-    text-align: center;
-}
-.output-buttons {
-    display: flex; /* Bikin tombol sejajar */
-    gap: 10px; /* Kasih jarak antar tombol */
-}
-
-/* Biarkan style #tombol-copy yang lama, 
-   tapi kita pastikan width-nya 'auto' agar rapi */
-#tombol-copy {
-    width: auto;
-    flex-grow: 1; /* Biar lebarnya sama */
-}
-
-/* Tombol WhatsApp BARU */
-#tombol-whatsapp {
-    width: auto;
-    flex-grow: 1; /* Biar lebarnya sama */
-    background-color: #25D366; /* Warna WhatsApp */
-    color: white;
-}
-#tombol-whatsapp:hover {
-    background-color: #1EAE50;
+    font-size: 16px;
+    
+    /* Beri jarak ke daftar riwayat di bawahnya */
+    margin-bottom: 15px; 
 }
