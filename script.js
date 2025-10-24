@@ -295,7 +295,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         let number = Number(angkaString);
         if (number === 0) return '0'; // Return "0" jika angkanya 0
         let format = number.toLocaleString('id-ID');
-        return pakaiRp ? ` ${format}` : format;
+        return pakaiRp ? `${format}` : format;
     }
 
     // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V6.0)
