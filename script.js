@@ -1,4 +1,4 @@
-// File: script.js (V8.0 - Nomor WA Tujuan di Pengaturan)
+// File: script.js (V10.0 - Search Engine di Riwayat)
 
 // GANTI DENGAN LINK GOOGLE SHEET CSV KAMU
 const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVm7A6LvL2chRGyir6vqY-4hcgGLCHIeL7WdWb5NkET9aihdc3py86gJfv2GGhPJ8OeyWmVRBUivf2/pub?output=csv';
@@ -28,13 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const hapusRiwayatBtn = document.getElementById('hapus-riwayat-btn');
     const semuaTombolTutup = document.querySelectorAll('.tombol-tutup-modal');
     const tombolWA = document.getElementById('tombol-whatsapp');
-
-    // ##### PERUBAHAN V8.0 ADA DI SINI #####
     const nomorWaInput = document.getElementById('nomor-wa-direktur');
 
-    // --- Fungsi Logika Inti ---
+    // ##### PERUBAHAN V10.0 ADA DI SINI #####
+    const riwayatSearchInput = document.getElementById('riwayat-search-input');
 
-    // (loadDatabase - SAMA SEPERTI V7.0)
+    // (loadDatabase - SAMA SEPERTI V9.0)
     async function loadDatabase() {
         console.log('Mulai mengambil data dari Google Sheet...');
         generateBtn.textContent = 'MEMUAT DATABASE...';
@@ -93,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // (getTanggalHariIni, renumberBlocks, hapusBlokBarang - SAMA SEPERTI V7.0)
+    // (getTanggalHariIni, renumberBlocks, hapusBlokBarang - SAMA SEPERTI V9.0)
     function getTanggalHariIni() {
         const today = new Date();
         const options = { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -124,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // (tambahBarang, tampilkanHasilPencarian, updateTampilanBarang - SAMA SEPERTI V7.0)
+    // (tambahBarang, tampilkanHasilPencarian, updateTampilanBarang - SAMA SEPERTI V9.0)
     function tambahBarang() {
         const itemBlock = document.createElement('div');
         itemBlock.className = 'item-block';
@@ -193,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // (generateTeks, copyTeks - SAMA SEPERTI V7.0)
+    // (generateTeks, copyTeks, kirimViaWA, formatRupiah - SAMA SEPERTI V9.0)
     function generateTeks(e) {
         e.preventDefault(); 
         const pengajuan = {
@@ -245,55 +244,40 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
             alert('Gagal menyalin teks. Coba copy manual.');
         });
     }
-
-    // ##### FUNGSI KIRIM WA V8.0 (Di-upgrade) #####
     function kirimViaWA() {
         const teks = hasilTeks.value;
         if (!teks) {
             alert('Belum ada teks untuk dikirim! Klik "Buat Teks Pengajuan" dulu.');
             return;
         }
-        
-        // Enkripsi teks
         const encodedTeks = encodeURIComponent(teks);
-        
-        // Ambil nomor WA dari localStorage
         const nomorWA = localStorage.getItem('nomorWaDirektur');
         let waLink = "";
-
         if (nomorWA) {
-            // Bersihkan nomor (hapus spasi, +, 0 di depan)
             let formattedNomor = nomorWA.replace(/[\s+()-]/g, '');
             if (formattedNomor.startsWith('0')) {
                 formattedNomor = '62' + formattedNomor.substring(1);
             }
-            // Pastikan diawali 62
             if (!formattedNomor.startsWith('62')) {
                 formattedNomor = '62' + formattedNomor;
             }
             waLink = `https://api.whatsapp.com/send?phone=${formattedNomor}&text=${encodedTeks}`;
         } else {
-            // Versi lama (pilih kontak) jika nomor belum di-set
             waLink = `https://api.whatsapp.com/send?text=${encodedTeks}`;
             alert('Nomor WA Tujuan belum diatur. Membuka WA untuk pilih kontak...\n\n(Buka "Pengaturan" untuk mengatur nomor tujuan default)');
         }
-        
-        // Buka link di tab baru
         window.open(waLink, '_blank');
     }
-    // #############################
-
-    // (formatRupiah - SAMA SEPERTI V7.0)
-    function formatRupiah(angka, pakaiRp = true) {
+    function formatRupiah(angka, pakaiRp = false) {
         let angkaString = String(angka).replace(/[^0-9]/g, '');
         if (angkaString === '') return '0'; 
         let number = Number(angkaString);
         if (number === 0) return '0'; 
         let format = number.toLocaleString('id-ID');
-        return pakaiRp ? `${format}` : format;
+        return pakaiRp ? `Rp ${format}` : format;
     }
 
-    // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V7.0)
+    // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V9.0)
     function bukaModal(modal) {
         modal.classList.remove('hidden');
         modalOverlay.classList.remove('hidden');
@@ -304,21 +288,17 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         modalOverlay.classList.add('hidden');
     }
 
-    // (Fungsi Pengaturan: loadPengaturan - SAMA SEPERTI V7.0)
+    // (Fungsi Pengaturan: loadPengaturan, simpanPengaturan - SAMA SEPERTI V9.0)
     function loadPengaturan() {
         const namaSales = localStorage.getItem('namaSalesDefault');
         if (namaSales) {
             marketingInput.value = namaSales;
             namaSalesInput.value = namaSales;
         }
-        // Tidak perlu load nomor WA di sini, kita load saat modal dibuka
     }
-
-    // ##### FUNGSI SIMPAN PENGATURAN V8.0 (Di-upgrade) #####
     function simpanPengaturan() {
         const namaSales = namaSalesInput.value;
         const nomorWA = nomorWaInput.value;
-
         if (namaSales) {
             localStorage.setItem('namaSalesDefault', namaSales);
             marketingInput.value = namaSales;
@@ -326,53 +306,77 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
             alert('Nama sales tidak boleh kosong.');
             return;
         }
-        
-        // Simpan nomor WA (boleh kosong)
         localStorage.setItem('nomorWaDirektur', nomorWA);
-
         alert('Pengaturan berhasil disimpan!');
         tutupModal();
     }
-
-    // (Fungsi Riwayat: simpanRiwayat, tampilkanRiwayat, hapusItemRiwayat, hapusSemuaRiwayat, muatDariRiwayat - SAMA SEPERTI V7.0)
+    
+    // (Fungsi Riwayat: simpanRiwayat, hapusItemRiwayat, hapusSemuaRiwayat - SAMA SEPERTI V9.0)
     function simpanRiwayat(pengajuan) {
         let riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
         riwayat.unshift(pengajuan);
         riwayat = riwayat.slice(0, 50);
         localStorage.setItem('riwayatPengajuan', JSON.stringify(riwayat));
     }
-    function tampilkanRiwayat() {
-        riwayatList.innerHTML = '';
-        const riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
-        if (riwayat.length === 0) {
-            riwayatList.innerHTML = '<p>Tidak ada riwayat pengajuan.</p>';
-            return;
-        }
-        riwayat.forEach(pengajuan => {
-            const item = document.createElement('div');
-            item.className = 'riwayat-item';
-            item.dataset.id = pengajuan.id;
-            item.innerHTML = `
-                <button type="button" class="tombol-hapus-item" data-id="${pengajuan.id}">&times;</button>
-                <strong>${pengajuan.namaToko}</strong><br>
-                <span>${pengajuan.tanggal}</span>
-                <span>${pengajuan.items.length} item</span>
-            `;
-            riwayatList.appendChild(item);
-        });
-    }
     function hapusItemRiwayat(id) {
         let riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
         const riwayatBaru = riwayat.filter(p => p.id != id);
         localStorage.setItem('riwayatPengajuan', JSON.stringify(riwayatBaru));
-        tampilkanRiwayat();
+        tampilkanRiwayat(riwayatSearchInput.value); // Tampilkan ulang DENGAN filter
     }
     function hapusSemuaRiwayat() {
         if (confirm('Apakah kamu yakin ingin menghapus SEMUA riwayat pengajuan?')) {
             localStorage.removeItem('riwayatPengajuan');
-            tampilkanRiwayat();
+            tampilkanRiwayat(); // Tampilkan ulang (jadi kosong)
         }
     }
+
+    // ##### PERUBAHAN BESAR V10.0 ADA DI SINI #####
+    // --- FUNGSI TAMPILKAN RIWAYAT (Di-upgrade dengan filter) ---
+    function tampilkanRiwayat(filterText = "") { // Terima parameter filter
+        riwayatList.innerHTML = ''; // Kosongkan daftar
+        let riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
+
+        // Filter riwayat jika ada filterText
+        if (filterText) {
+            const filterLower = filterText.toLowerCase();
+            riwayat = riwayat.filter(pengajuan => 
+                pengajuan.namaToko.toLowerCase().includes(filterLower)
+            );
+        }
+
+        if (riwayat.length === 0) {
+            riwayatList.innerHTML = '<p>Tidak ada riwayat pengajuan (atau tidak ada hasil pencarian).</p>';
+            return;
+        }
+
+        riwayat.forEach(pengajuan => {
+            const item = document.createElement('div');
+            item.className = 'riwayat-item';
+            item.dataset.id = pengajuan.id; 
+            
+            let itemHtml = '<ul class="riwayat-item-list">';
+            pengajuan.items.forEach(barang => {
+                const qtyInfo = barang.qty && barang.qty.trim() !== '' ? ` <strong>(${barang.qty})</strong>` : '';
+                itemHtml += `<li>${barang.nama}${qtyInfo}</li>`;
+            });
+            itemHtml += '</ul>';
+
+            item.innerHTML = `
+                <button type="button" class="tombol-hapus-item" data-id="${pengajuan.id}">&times;</button>
+                <div class="riwayat-info">
+                    <strong>${pengajuan.namaToko}</strong>
+                    <span>${pengajuan.tanggal}</span>
+                    <span>${pengajuan.items.length} item</span>
+                </div>
+                ${itemHtml}
+            `;
+            
+            riwayatList.appendChild(item);
+        });
+    }
+
+    // (muatDariRiwayat - SAMA SEPERTI V9.0)
     function muatDariRiwayat(id) {
         const riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
         const pengajuan = riwayat.find(p => p.id == id);
@@ -410,26 +414,27 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
 
     // --- BAGIAN 2: MENGHUBUNGKAN FUNGSI KE TOMBOL ---
     
-    // (Listener Tombol Utama - SAMA SEPERTI V7.0)
+    // (Listener Tombol Utama - SAMA SEPERTI V9.0)
     formPengajuan.addEventListener('submit', generateTeks);
     tombolCopy.addEventListener('click', copyTeks);
     tombolWA.addEventListener('click', kirimViaWA);
     tambahBarangBtn.addEventListener('click', tambahBarang);
     itemList.addEventListener('click', hapusBlokBarang);
     
-    // ##### LISTENER TOMBOL PENGATURAN V8.0 (Di-upgrade) #####
+    // ##### LISTENER TOMBOL PENGATURAN & RIWAYAT (Di-upgrade V10.0) #####
     tombolPengaturan.addEventListener('click', () => {
-        // Muat data terbaru dari localStorage ke modal
         namaSalesInput.value = localStorage.getItem('namaSalesDefault') || '';
         nomorWaInput.value = localStorage.getItem('nomorWaDirektur') || '';
         bukaModal(modalPengaturan);
     });
     
-    // (Listener Modal & Riwayat - SAMA SEPERTI V7.0)
     tombolRiwayat.addEventListener('click', () => {
-        tampilkanRiwayat();
+        riwayatSearchInput.value = ""; // Kosongkan search bar setiap kali modal dibuka
+        tampilkanRiwayat(); // Tampilkan semua riwayat
         bukaModal(modalRiwayat);
     });
+    
+    // (Listener Modal & Riwayat - SAMA SEPERTI V9.0)
     modalOverlay.addEventListener('click', tutupModal);
     semuaTombolTutup.forEach(tombol => tombol.addEventListener('click', tutupModal));
     simpanPengaturanBtn.addEventListener('click', simpanPengaturan);
@@ -438,7 +443,10 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         if (e.target.classList.contains('tombol-hapus-item')) {
             e.stopPropagation();
             const id = e.target.dataset.id;
-            if (confirm('Hapus item riwayat ini?')) { hapusItemRiwayat(id); }
+            if (confirm('Hapus item riwayat ini?')) { 
+                // Perbarui daftar riwayat SETELAH menghapus
+                hapusItemRiwayat(id);
+            }
         }
         else if (e.target.closest('.riwayat-item')) {
             const id = e.target.closest('.riwayat-item').dataset.id;
@@ -446,7 +454,13 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         }
     });
 
-    // (Listener Pencarian - SAMA SEPERTI V7.0)
+    // ##### LISTENER BARU V10.0 #####
+    // Listener untuk search riwayat
+    riwayatSearchInput.addEventListener('input', (e) => {
+        tampilkanRiwayat(e.target.value); // Panggil fungsi tampilkan DENGAN filter
+    });
+
+    // (Listener Pencarian - SAMA SEPERTI V9.0)
     itemList.addEventListener('input', (e) => {
         if (e.target.classList.contains('nama-barang-search')) {
             const searchTerm = e.target.value;
@@ -474,7 +488,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
     // --- INISIALISASI HALAMAN ---
     
     tanggalInput.value = getTanggalHariIni();
-    loadPengaturan(); // Muat nama sales default ke form utama
+    loadPengaturan(); 
     loadDatabase();
     
 });
