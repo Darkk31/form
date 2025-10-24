@@ -188,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const produkData = databaseProduk[selectedValue] || { hg: "0", hk: "0" };
             const hgString = produkData.hg;
             const hkString = produkData.hk;
-            hgInput.value = (hgString.includes('&') || hgString.includes(',')) ? hgString : formatRupiah(hgString);
-            hkInput.value = (hkString.includes('&') || hkString.includes(',')) ? hkString : formatRupiah(hkString);
+            hgInput.value = (hgString.includes('&') || hgString.includes(',')) ? hgString : formatRupiah(hgString, false);
+            hkInput.value = (hkString.includes('&') || hkString.includes(',')) ? hkString : formatRupiah(hkString, false);
         }
     }
     
@@ -290,7 +290,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         let number = Number(angkaString);
         if (number === 0) return '0'; 
         let format = number.toLocaleString('id-ID');
-        return pakaiRp ? `Rp ${format}` : format;
+        return pakaiRp ? `${format}` : format;
     }
 
     // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V7.0)
