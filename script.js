@@ -1,5 +1,6 @@
-// File: script.js (V6.0 - Searchable Dropdown)
+// File: script.js (V6.1 - Parser Fleksibel untuk 1, 2, or 3 Kolom)
 
+// GANTI DENGAN LINK GOOGLE SHEET CSV KAMU
 const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVm7A6LvL2chRGyir6vqY-4hcgGLCHIeL7WdWb5NkET9aihdc3py86gJfv2GGhPJ8OeyWmVRBUivf2/pub?output=csv';
 
 let databaseProduk = {};
@@ -7,7 +8,7 @@ let daftarNamaProduk = []; // Daftar A-Z untuk pencarian cepat
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // (Ambil semua elemen Modal & Form, sama seperti V5.0)
+    // (Ambil semua elemen Modal & Form, sama seperti V6.0)
     const formPengajuan = document.getElementById('form-pengajuan');
     const itemList = document.getElementById('item-list');
     const tambahBarangBtn = document.getElementById('tambah-barang-btn');
@@ -29,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Fungsi Logika Inti ---
 
+    // ##### PERUBAHAN BESAR V6.1 ADA DI FUNGSI INI #####
     async function loadDatabase() {
         console.log('Mulai mengambil data dari Google Sheet...');
         generateBtn.textContent = 'MEMUAT DATABASE...';
@@ -45,15 +47,52 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 1; i < baris.length; i++) {
                 const barisData = baris[i].trim();
                 if (barisData) {
-                    const pemisahHK = barisData.lastIndexOf(',');
-                    const hk = barisData.substring(pemisahHK + 1).trim();
-                    const sisa = barisData.substring(0, pemisahHK).trim();
-                    const pemisahHG = sisa.lastIndexOf(',');
-                    const hg = sisa.substring(pemisahHG + 1).trim();
-                    const nama = sisa.substring(0, pemisahHG).trim().replace(/"/g, '');
+                    
+                    let nama = "", hg = "", hk = "";
 
-                    if (nama && hg && hk) {
-                        databaseProduk[nama] = { hg: hg, hk: hk };
+                    // 1. Ambil kolom terakhir (bisa HK, HG, atau Nama)
+                    const pemisah1 = barisData.lastIndexOf(',');
+                    const col_Last = barisData.substring(pemisah1 + 1).trim().replace(/"/g, '');
+                    const sisa1 = barisData.substring(0, pemisah1).trim();
+
+                    if (sisa1 === "") { 
+                        // --- Hanya 1 kolom terdeteksi (Nama) ---
+                        nama = col_Last;
+                        hg = "0";
+                        hk = "0";
+                    } else {
+                        // 2. Ambil kolom kedua dari terakhir
+                        const pemisah2 = sisa1.lastIndexOf(',');
+                        const col_Mid = sisa1.substring(pemisah2 + 1).trim().replace(/"/g, '');
+                        const sisa2 = sisa1.substring(0, pemisah2).trim();
+
+                        if (sisa2 === "") { 
+                            // --- Hanya 2 kolom terdeteksi (Nama, HG) ---
+                            // Cek anomali (jika barisnya `Nama,` - hg-nya kosong)
+                            if (col_Last === "" && col_Mid.length > 0) {
+                                nama = col_Mid;
+                                hg = "0"; // harga kosong
+                            } else {
+                                nama = col_Mid;
+                                hg = col_Last;
+                            }
+                            hk = "0"; // Default HK ke 0
+                        } else { 
+                            // --- 3 kolom terdeteksi (Nama, HG, HK) ---
+                            nama = sisa2.replace(/"/g, ''); // Nama adalah sisa dari sisa
+                            hg = col_Mid;
+                            hk = col_Last;
+                        }
+                    }
+                    
+                    // Lewati baris header
+                    if (nama.toLowerCase() === 'namaproduk') continue;
+
+                    if (nama) { // Hanya perlu nama untuk menambah produk
+                        databaseProduk[nama] = { 
+                            hg: hg || "0", // Pastikan hg tidak string kosong
+                            hk: hk || "0"  // Pastikan hk tidak string kosong
+                        };
                     }
                 }
             }
@@ -66,12 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
             generateBtn.disabled = false;
         } catch (error) {
             console.error('Error saat memuat database:', error);
-            alert('GAGAL MEMUAT DATABASE PRODUK. Pastikan Sheet kamu punya 3 kolom.');
+            alert('GAGAL MEMUAT DATABASE PRODUK. Cek koneksi internet.');
             generateBtn.textContent = 'GAGAL MEMUAT DATA';
         }
     }
 
-    // (getTanggalHariIni, renumberBlocks, hapusBlokBarang - SAMA SEPERTI V5.0)
+    // (getTanggalHariIni, renumberBlocks, hapusBlokBarang - SAMA SEPERTI V6.0)
     function getTanggalHariIni() {
         const today = new Date();
         const options = { timeZone: 'Asia/Jakarta', day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -104,16 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // (isiOpsiProduk - DIHAPUS, tidak dipakai lagi)
-
-    // ##### PERUBAHAN BESAR V6.0: Fungsi `tambahBarang` #####
+    // (tambahBarang - SAMA SEPERTI V6.0)
     function tambahBarang() {
         const itemBlock = document.createElement('div');
         itemBlock.className = 'item-block';
-        itemBlock.dataset.mode = 'standard'; // Mode default
+        itemBlock.dataset.mode = 'standard'; 
         const nomorBarang = itemList.querySelectorAll('.item-block').length + 1;
         
-        // Template HTML baru untuk V6.0
         itemBlock.innerHTML = `
             <h4>Barang ${nomorBarang}</h4>
             <label>Nama Barang:</label>
@@ -121,31 +157,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 <input type="text" class="nama-barang-search" placeholder="Ketik & Pilih Produk...">
                 <div class="search-results hidden"></div>
             </div>
-            
             <label>Harga Grosir (HG):</label>
             <input type="text" class="harga-grosir" placeholder="Otomatis">
-            
             <label>Harga Khusus (HK):</label>
             <input type="text" class="harga-khusus" placeholder="Isi HK (Boleh teks & simbol)" required>
-            
             <label>Pengambilan (Qty):</label>
             <input type="text" class="kuantitas" placeholder="Contoh: 5 dus" required>
-            
             <button type="button" class="hapus-barang-btn">Hapus Barang</button>
         `;
-        
         itemList.appendChild(itemBlock);
     }
     
-    // ##### BARU V6.0: Fungsi untuk menampilkan hasil pencarian #####
+    // (tampilkanHasilPencarian - SAMA SEPERTI V6.0)
     function tampilkanHasilPencarian(searchTerm, resultsContainer) {
-        resultsContainer.innerHTML = ''; // Kosongkan
+        resultsContainer.innerHTML = ''; 
         resultsContainer.classList.remove('hidden');
         
         const filter = searchTerm.toLowerCase();
         let hasMatches = false;
 
-        // Cari di database produk
         for (const namaProduk of daftarNamaProduk) {
             if (namaProduk.toLowerCase().includes(filter)) {
                 const item = document.createElement('div');
@@ -157,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Selalu tambahkan opsi "Produk Custom"
         const customItem = document.createElement('div');
         customItem.className = 'result-item';
         customItem.textContent = '-- Produk Custom (Isi Manual) --';
@@ -165,29 +194,27 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsContainer.appendChild(customItem);
     }
 
-    // ##### MODIFIKASI V6.0: `updateTampilanBarang` sekarang dipanggil dari hasil pencarian #####
+    // (updateTampilanBarang - SAMA SEPERTI V6.0)
     function updateTampilanBarang(itemBlock, selectedValue) {
         const searchInput = itemBlock.querySelector('.nama-barang-search');
         const hgInput = itemBlock.querySelector('.harga-grosir');
         const hkInput = itemBlock.querySelector('.harga-khusus');
         
         if (selectedValue === "__custom") {
-            // --- MODE CUSTOM ---
             itemBlock.dataset.mode = 'custom';
-            searchInput.value = ''; // Kosongkan input
+            searchInput.value = ''; 
             searchInput.placeholder = 'Ketik Nama Produk Custom...';
             hgInput.value = ""; 
             hgInput.placeholder = "Isi HG Manual";
             hkInput.value = ""; 
             hkInput.placeholder = "Isi HK (Boleh teks & simbol)";
         } else {
-            // --- MODE STANDAR ---
             itemBlock.dataset.mode = 'standard';
-            searchInput.value = selectedValue; // Isi input dengan nama produk
+            searchInput.value = selectedValue;
             hgInput.placeholder = "Otomatis";
             hkInput.placeholder = "Otomatis";
             
-            const produkData = databaseProduk[selectedValue] || { hg: "", hk: "" };
+            const produkData = databaseProduk[selectedValue] || { hg: "0", hk: "0" };
             const hgString = produkData.hg;
             const hkString = produkData.hk;
     
@@ -196,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // ##### MODIFIKASI V6.0: `generateTeks` sekarang membaca dari input pencarian #####
+    // (generateTeks - SAMA SEPERTI V6.0)
     function generateTeks(e) {
         e.preventDefault(); 
         
@@ -220,22 +247,20 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         
         semuaItem.forEach((item, index) => {
             const mode = item.dataset.mode;
-            const nama = item.querySelector('.nama-barang-search').value; // Ambil nama dari input pencarian
+            const nama = item.querySelector('.nama-barang-search').value;
             const hk = item.querySelector('.harga-khusus').value;
             const hg = item.querySelector('.harga-grosir').value;
             const qty = item.querySelector('.kuantitas').value;
             
             if (nama && hk && qty) {
-                // Simpan ke obyek riwayat
                 pengajuan.items.push({
-                    nama: nama, // Nama akan jadi nama custom ATAU nama produk
+                    nama: nama,
                     hg: hg,
                     hk: hk,
                     qty: qty,
                     isCustom: (mode === 'custom')
                 });
                 
-                // Tambahkan ke teks
                 teksFinal += `${index + 1}. *_${nama}_*
 - HG "@ ${hg} 
 - HK "@ ${hk}
@@ -251,7 +276,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         simpanRiwayat(pengajuan);
     }
     
-    // (copyTeks, formatRupiah - SAMA SEPERTI V5.0)
+    // (copyTeks, formatRupiah - SAMA SEPERTI V6.0)
     function copyTeks() {
         if (!hasilTeks.value) {
             alert('Belum ada teks untuk di-copy!'); return;
@@ -266,13 +291,14 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
 
     function formatRupiah(angka, pakaiRp = true) {
         let angkaString = String(angka).replace(/[^0-9]/g, '');
-        if (angkaString === '') return '';
+        if (angkaString === '') return '0'; // Default ke "0" jika inputnya "0" atau ""
         let number = Number(angkaString);
+        if (number === 0) return '0'; // Return "0" jika angkanya 0
         let format = number.toLocaleString('id-ID');
         return pakaiRp ? `Rp ${format}` : format;
     }
 
-    // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V5.0)
+    // (Fungsi Modal: bukaModal, tutupModal - SAMA SEPERTI V6.0)
     function bukaModal(modal) {
         modal.classList.remove('hidden');
         modalOverlay.classList.remove('hidden');
@@ -284,7 +310,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         modalOverlay.classList.add('hidden');
     }
 
-    // (Fungsi Pengaturan: loadPengaturan, simpanPengaturan - SAMA SEPERTI V5.0)
+    // (Fungsi Pengaturan: loadPengaturan, simpanPengaturan - SAMA SEPERTI V6.0)
     function loadPengaturan() {
         const namaSales = localStorage.getItem('namaSalesDefault');
         if (namaSales) {
@@ -305,7 +331,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         }
     }
 
-    // (Fungsi Riwayat: simpanRiwayat, tampilkanRiwayat, hapusItemRiwayat, hapusSemuaRiwayat - SAMA SEPERTI V5.0)
+    // (Fungsi Riwayat: simpanRiwayat, tampilkanRiwayat, hapusItemRiwayat, hapusSemuaRiwayat - SAMA SEPERTI V6.0)
     function simpanRiwayat(pengajuan) {
         let riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
         riwayat.unshift(pengajuan);
@@ -348,7 +374,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         }
     }
 
-    // ##### MODIFIKASI V6.0: `muatDariRiwayat` sekarang mengisi input pencarian #####
+    // (muatDariRiwayat - SAMA SEPERTI V6.0)
     function muatDariRiwayat(id) {
         const riwayat = JSON.parse(localStorage.getItem('riwayatPengajuan')) || [];
         const pengajuan = riwayat.find(p => p.id == id);
@@ -360,10 +386,10 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         document.getElementById('tanggal').value = pengajuan.tanggal;
         document.getElementById('marketing').value = pengajuan.marketing;
         
-        itemList.innerHTML = ''; // Hapus blok barang
+        itemList.innerHTML = ''; 
         
         pengajuan.items.forEach((item, index) => {
-            tambahBarang(); // Buat blok baru (V6.0)
+            tambahBarang(); 
             const blokBaru = itemList.lastElementChild;
             
             const searchInput = blokBaru.querySelector('.nama-barang-search');
@@ -373,11 +399,11 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
 
             if (item.isCustom) {
                 blokBaru.dataset.mode = 'custom';
-                searchInput.value = item.nama; // Isi nama custom
+                searchInput.value = item.nama; 
                 searchInput.placeholder = 'Ketik Nama Produk Custom...';
             } else {
                 blokBaru.dataset.mode = 'standard';
-                searchInput.value = item.nama; // Isi nama produk
+                searchInput.value = item.nama; 
             }
 
             hgInput.value = item.hg;
@@ -392,13 +418,12 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
 
     // --- BAGIAN 2: MENGHUBUNGKAN FUNGSI KE TOMBOL ---
     
-    // (Tombol Utama)
+    // (Listener Tombol Utama, Modal, Riwayat - SAMA SEPERTI V6.0)
     formPengajuan.addEventListener('submit', generateTeks);
     tombolCopy.addEventListener('click', copyTeks);
     tambahBarangBtn.addEventListener('click', tambahBarang);
     itemList.addEventListener('click', hapusBlokBarang);
     
-    // (Tombol Modal)
     tombolPengaturan.addEventListener('click', () => {
         namaSalesInput.value = localStorage.getItem('namaSalesDefault') || '';
         bukaModal(modalPengaturan);
@@ -408,15 +433,12 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         bukaModal(modalRiwayat);
     });
 
-    // (Tombol Tutup Modal)
     modalOverlay.addEventListener('click', tutupModal);
     semuaTombolTutup.forEach(tombol => tombol.addEventListener('click', tutupModal));
     
-    // (Tombol Aksi Modal)
     simpanPengaturanBtn.addEventListener('click', simpanPengaturan);
     hapusRiwayatBtn.addEventListener('click', hapusSemuaRiwayat);
 
-    // (Listener Riwayat List)
     riwayatList.addEventListener('click', (e) => {
         if (e.target.classList.contains('tombol-hapus-item')) {
             e.stopPropagation();
@@ -429,9 +451,8 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         }
     });
 
-    // ##### BARU V6.0: Event Listeners untuk Searchable Dropdown #####
+    // (Listener Pencarian - SAMA SEPERTI V6.0)
     itemList.addEventListener('input', (e) => {
-        // Jika yang diketik adalah kotak pencarian...
         if (e.target.classList.contains('nama-barang-search')) {
             const searchTerm = e.target.value;
             const resultsContainer = e.target.closest('.search-container').querySelector('.search-results');
@@ -440,21 +461,17 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
     });
 
     itemList.addEventListener('click', (e) => {
-        // Jika yang diklik adalah item hasil pencarian...
         if (e.target.classList.contains('result-item')) {
             const selectedValue = e.target.dataset.value;
             const itemBlock = e.target.closest('.item-block');
             const resultsContainer = e.target.closest('.search-results');
             
-            // Panggil fungsi update utama
             updateTampilanBarang(itemBlock, selectedValue);
             
-            // Sembunyikan hasil
             resultsContainer.classList.add('hidden');
         }
     });
 
-    // Sembunyikan hasil pencarian jika klik di luar
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-container')) {
             document.querySelectorAll('.search-results').forEach(div => {
