@@ -458,7 +458,7 @@ _Wilayah:_ ${pengajuan.wilayah}\n\n`;
         if (e.target.classList.contains('result-item')) {
             const selectedValue = e.target.dataset.value;
             const itemBlock = e.target.closest('.item-block');
-            const resultsContainer = e.g.closest('.search-results');
+            const resultsContainer = e.target.closest('.search-results');
             updateTampilanBarang(itemBlock, selectedValue);
             resultsContainer.classList.add('hidden');
         }
