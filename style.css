@@ -320,3 +320,25 @@ textarea {
     font-weight: bold;
     text-align: center;
 }
+.output-buttons {
+    display: flex; /* Bikin tombol sejajar */
+    gap: 10px; /* Kasih jarak antar tombol */
+}
+
+/* Biarkan style #tombol-copy yang lama, 
+   tapi kita pastikan width-nya 'auto' agar rapi */
+#tombol-copy {
+    width: auto;
+    flex-grow: 1; /* Biar lebarnya sama */
+}
+
+/* Tombol WhatsApp BARU */
+#tombol-whatsapp {
+    width: auto;
+    flex-grow: 1; /* Biar lebarnya sama */
+    background-color: #25D366; /* Warna WhatsApp */
+    color: white;
+}
+#tombol-whatsapp:hover {
+    background-color: #1EAE50;
+}
