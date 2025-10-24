@@ -14,7 +14,7 @@
     </div>
 
     <div id="app">
-        <h1>Form Pengajuan Harga</h1>
+        <h1>Buat Pengajuan Harga (V6.0)</h1>
         
         <form id="form-pengajuan">
             <div class="input-grup">
@@ -56,7 +56,7 @@
                     <input type="text" class="harga-grosir" placeholder="Otomatis">
                     
                     <label>Harga Khusus (HK):</label>
-                    <input type="text" class="harga-khusus" placeholder="Isi Harga Khusus" required>
+                    <input type="text" class="harga-khusus" placeholder="Isi HK (Boleh teks & simbol)" required>
                     
                     <label>Pengambilan (Qty):</label>
                     <input type="text" class="kuantitas" placeholder="Contoh: 5 dus" required>
@@ -102,13 +102,17 @@
 
     </div>
 
-    <div id="modal-riwayat" class="modal hidden">
-        <div class="modal-header">
-            <h2>Riwayat Pengajuan</h2>
-            <button type="button" class="tombol-tutup-modal">&times;</button>
-        </div>
-        <div class="modal-content">
-            <div id="riwayat-list"></div>
+<div id="modal-riwayat" class="modal hidden">
+    <div class="modal-header">
+        <h2>Riwayat Pengajuan</h2>
+        <button type="button" class="tombol-tutup-modal">&times;</button>
+    </div>
+    <div class="modal-content">
+
+        <input type="search" id="riwayat-search-input" placeholder="Cari berdasarkan Nama Toko...">
+
+        <div id="riwayat-list">
+</div>
             <button type="button" id="hapus-riwayat-btn">Hapus Semua Riwayat</button>
         </div>
     </div>
