@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-M">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pengajuan Harga V6.0</title>
+    <title>Form Pengajuan Harga (V6.0)</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
     </div>
 
     <div id="app">
-        <h1>Form Pengajuan Harga (</h1>
+        <h1>Form Pengajuan Harga</h1>
         
         <form id="form-pengajuan">
             <div class="input-grup">
@@ -56,7 +56,7 @@
                     <input type="text" class="harga-grosir" placeholder="Otomatis">
                     
                     <label>Harga Khusus (HK):</label>
-                    <input type="text" class="harga-khusus" placeholder="Harga Khusus" required>
+                    <input type="text" class="harga-khusus" placeholder="Isi Harga Khusus" required>
                     
                     <label>Pengambilan (Qty):</label>
                     <input type="text" class="kuantitas" placeholder="Contoh: 5 dus" required>
@@ -70,11 +70,17 @@
             <button type="submit" id="generate-btn">BUAT TEKS PENGAJUAN</button>
         </form>
         
-        <div id="hasil-output">
-            <h3>Hasil Teks (Siap Copy-Paste):</h3>
-            <textarea id="hasil-teks" readonly></textarea>
-            <button type="button" id="tombol-copy">COPY TEKS</button>
-        </div>
+<div id="hasil-output">
+    <h3>Hasil Teks (Siap Copy-Paste):</h3>
+    <textarea id="hasil-teks" readonly></textarea>
+
+    <div class="output-buttons">
+        <button type="button" id="tombol-copy">COPY TEKS</button>
+        <button type="button" id="tombol-whatsapp">KIRIM via WA</button>
+    </div>
+
+</div>
+
     </div>
 
     <div id="modal-overlay" class="hidden"></div>
@@ -85,10 +91,15 @@
             <button type="button" class="tombol-tutup-modal">&times;</button>
         </div>
         <div class="modal-content">
-            <label for="nama-sales-default">Nama Sales Default Kamu:</label>
-            <input type="text" id="nama-sales-default" placeholder="Ketik nama lengkap kamu">
-            <button type="button" id="simpan-pengaturan-btn">Simpan</button>
-        </div>
+    <label for="nama-sales-default">Nama Sales Default Kamu:</label>
+    <input type="text" id="nama-sales-default" placeholder="Ketik nama lengkap kamu">
+
+    <label for="nomor-wa-direktur">Nomor WA Tujuan (Direktur):</label>
+    <input type="tel" id="nomor-wa-direktur" placeholder="Contoh: 628123456789">
+
+    <button type="button" id="simpan-pengaturan-btn">Simpan</button>
+</div>
+
     </div>
 
     <div id="modal-riwayat" class="modal hidden">
