@@ -1,0 +1,322 @@
+/* Atur font dasar dan latar belakang */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 20px;
+    padding-top: 80px; /* Beri ruang untuk header-nav */
+}
+
+/* --- BARU: Header untuk Tombol Navigasi --- */
+.header-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 100;
+}
+
+.nav-btn {
+    background-color: #555;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: auto;
+    border-radius: 20px;
+}
+.nav-btn:hover {
+    background-color: #777;
+}
+
+/* Kontainer utama aplikasi */
+#app {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+h1, h3, h4 {
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}
+h1 { margin-top: 0; }
+h4 { border-bottom: none; margin-top: 0; }
+
+.input-grup, .item-block {
+    margin-bottom: 20px;
+}
+
+.item-block {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+    margin-top: 10px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; 
+}
+
+input[readonly] {
+    background-color: #eee;
+    color: #777;
+    cursor: not-allowed;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#generate-btn {
+    background-color: #007bff;
+    color: white;
+    margin-bottom: 20px;
+}
+#generate-btn:hover { background-color: #0056b3; }
+
+#tambah-barang-btn {
+    background-color: #28a745;
+    color: white;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+#tambah-barang-btn:hover { background-color: #218838; }
+
+#tombol-copy {
+    background-color: #17a2b8;
+    color: white;
+}
+#tombol-copy:hover { background-color: #138496; }
+
+#hasil-output { margin-top: 20px; }
+
+textarea {
+    height: 250px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.hapus-barang-btn {
+    background-color: #dc3545;
+    color: white;
+    margin-top: 15px;
+    width: auto;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+.hapus-barang-btn:hover { background-color: #c82333; }
+
+.hidden { display: none; }
+
+
+/* --- BARU: Gaya untuk Modal (Pop-up) --- */
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 1001;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.modal-header h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.tombol-tutup-modal {
+    background: none;
+    border: none;
+    font-size: 28px;
+    width: auto;
+    padding: 0 5px;
+    color: #888;
+    font-weight: bold;
+}
+.tombol-tutup-modal:hover {
+    color: #333;
+}
+
+.modal-content {
+    font-size: 16px;
+}
+.modal-content label {
+    margin-top: 0;
+}
+
+#simpan-pengaturan-btn {
+    background-color: #007bff;
+    color: white;
+    margin-top: 15px;
+}
+
+/* --- BARU: Gaya untuk Riwayat --- */
+
+#riwayat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.riwayat-item {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.riwayat-item:hover {
+    background-color: #f9f9f9;
+}
+
+.riwayat-item strong {
+    font-size: 18px;
+    color: #0056b3;
+}
+.riwayat-item span {
+    font-size: 14px;
+    color: #555;
+    margin-right: 10px;
+}
+.riwayat-item .tombol-hapus-item {
+    float: right;
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 18px;
+    background: none;
+    border: none;
+    width: auto;
+    padding: 0 5px;
+}
+
+#hapus-riwayat-btn {
+    background-color: #dc3545;
+    color: white;
+    width: auto;
+    font-size: 14px;
+    padding: 8px 15px;
+}
+/* ... (SEMUA CSS DARI V5.0 SEBELUMNYA TETAP SAMA) ... */
+/* ... (copy-paste semua dari V5.0) ... */
+
+.hidden { display: none; }
+
+/* --- BARU: Gaya untuk Modal (Pop-up) --- */
+/* ... (style .modal, .modal-header, dll. tetap sama) ... */
+/* ... (style .riwayat-item, dll. tetap sama) ... */
+
+
+/* ##### PERUBAHAN BESAR V6.0 ADA DI SINI ##### */
+/* --- BARU: Gaya untuk Searchable Dropdown --- */
+
+.search-container {
+    position: relative; /* Wajib agar daftar hasil bisa diposisikan */
+}
+
+/* Kotak pencariannya */
+.nama-barang-search {
+    /* Style-nya sudah diatur oleh aturan input[type="text"] */
+    /* Kita bisa tambahkan style khusus jika mau */
+}
+
+/* Kotak daftar hasil pencarian */
+.search-results {
+    position: absolute;
+    top: 100%; /* Muncul tepat di bawah input */
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-sizing: border-box;
+    max-height: 250px; /* Batasi ketinggian, bisa di-scroll */
+    overflow-y: auto;
+    z-index: 10; /* Tampil di atas elemen lain */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Tiap item di dalam hasil pencarian */
+.result-item {
+    padding: 12px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+}
+.result-item:last-child {
+    border-bottom: none;
+}
+
+/* Efek saat di-hover */
+.result-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Style khusus untuk item "Produk Custom" */
+.result-item[data-value="__custom"] {
+    background-color: #f8f9fa;
+    color: #0056b3;
+    font-weight: bold;
+    text-align: center;
+}
