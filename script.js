@@ -1,28 +1,18 @@
-// File: script.js (V11.1 - Perbaikan Kurung Kurawal + Koneksi Backend)
+// File: script.js (V10.1 - Obfuscation untuk localStorage, Tanpa Login)
 
-// ##### GANTI DENGAN URL BACKEND PYTHONANYWHERE KAMU #####
-const BACKEND_URL = 'http://Darkky.pythonanywhere.com';
-// ##### GANTI DENGAN LINK GOOGLE SHEET CSV KAMU #####
+// GANTI DENGAN LINK GOOGLE SHEET CSV KAMU
 const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVm7A6LvL2chRGyir6vqY-4hcgGLCHIeL7WdWb5NkET9aihdc3py86gJfv2GGhPJ8OeyWmVRBUivf2/pub?output=csv';
 
 let databaseProduk = {};
 let daftarNamaProduk = [];
 
-const KEY_RIWAYAT = 'app_data_h';
-const KEY_PENGATURAN = 'app_data_s';
-const KEY_SESSION = 'app_session_user';
+// Nama key di localStorage
+const KEY_RIWAYAT = 'app_data_h'; // h = history
+const KEY_PENGATURAN = 'app_data_s'; // s = settings
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const loginContainer = document.getElementById('login-container');
-    const appContainer = document.getElementById('app-container');
-    const loginForm = document.getElementById('login-form');
-    const loginUsernameInput = document.getElementById('login-username');
-    const loginPasswordInput = document.getElementById('login-password');
-    const loginButton = document.getElementById('login-button');
-    const loginErrorMsg = document.getElementById('login-error-msg');
-    const logoutButton = document.getElementById('tombol-logout');
-
+    // Ambil semua elemen penting dari HTML
     const formPengajuan = document.getElementById('form-pengajuan');
     const itemList = document.getElementById('item-list');
     const tambahBarangBtn = document.getElementById('tambah-barang-btn');
@@ -30,75 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const tombolCopy = document.getElementById('tombol-copy');
     const tanggalInput = document.getElementById('tanggal');
     const generateBtn = document.getElementById('generate-btn');
-    const marketingInput = document.getElementById('marketing');
+    const marketingInput = document.getElementById('marketing'); // Input nama marketing
     const modalOverlay = document.getElementById('modal-overlay');
     const modalPengaturan = document.getElementById('modal-pengaturan');
     const tombolPengaturan = document.getElementById('tombol-pengaturan');
     const simpanPengaturanBtn = document.getElementById('simpan-pengaturan-btn');
-    const namaSalesInput = document.getElementById('nama-sales-default');
+    const namaSalesInput = document.getElementById('nama-sales-default'); // Input di modal
     const modalRiwayat = document.getElementById('modal-riwayat');
     const tombolRiwayat = document.getElementById('tombol-riwayat');
     const riwayatList = document.getElementById('riwayat-list');
     const hapusRiwayatBtn = document.getElementById('hapus-riwayat-btn');
     const semuaTombolTutup = document.querySelectorAll('.tombol-tutup-modal');
     const tombolWA = document.getElementById('tombol-whatsapp');
-    const nomorWaInput = document.getElementById('nomor-wa-direktur');
-    const riwayatSearchInput = document.getElementById('riwayat-search-input');
-
-    // --- Logika Login & Tampilan ---
-    function showLogin() {
-        loginContainer.classList.remove('hidden');
-        appContainer.classList.add('hidden');
-        loginButton.disabled = false;
-        loginButton.textContent = 'Login';
-    }
-
-    function showApp() {
-        loginContainer.classList.add('hidden');
-        appContainer.classList.remove('hidden');
-        tanggalInput.value = getTanggalHariIni();
-        loadPengaturan(); // Load nama default (cadangan) & WA num ke modal
-        loadDatabase(); // Load produk
-        const loggedInUser = localStorage.getItem(KEY_SESSION);
-        if (loggedInUser) {
-            marketingInput.value = loggedInUser; // Isi nama marketing dari session
-        }
-    }
-
-    async function handleLoginSubmit(e) {
-        e.preventDefault();
-        loginButton.disabled = true;
-        loginButton.textContent = 'Mencoba login...';
-        loginErrorMsg.classList.add('hidden');
-
-        const username = loginUsernameInput.value;
-        const password = loginPasswordInput.value;
-
-        try {
-            const response = await fetch(`${BACKEND_URL}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: username, password: password })
-            });
-            const data = await response.json();
-            if (!response.ok) { throw new Error(data.message || 'Login gagal.'); }
-            localStorage.setItem(KEY_SESSION, data.nama); // Simpan nama user dari backend
-            showApp();
-        } catch (error) {
-            console.error("Login fetch error:", error); // Tambah log error
-            loginErrorMsg.textContent = error.message || "Tidak bisa terhubung ke server."; // Pesan error lebih jelas
-            loginErrorMsg.classList.remove('hidden');
-            loginButton.disabled = false;
-            loginButton.textContent = 'Login';
-        }
-    }
-
-    function handleLogout() {
-        if (confirm('Apakah Anda yakin ingin logout?')) {
-            localStorage.removeItem(KEY_SESSION);
-            showLogin();
-        }
-    }
+    const nomorWaInput = document.getElementById('nomor-wa-direktur'); // Input di modal
+    const riwayatSearchInput = document.getElementById('riwayat-search-input'); // Input search riwayat
 
     // --- Fungsi Logika Inti ---
     async function loadDatabase() {
@@ -212,8 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function bukaModal(modal) { modal.classList.remove('hidden'); modalOverlay.classList.remove('hidden'); }
     function tutupModal() { modalPengaturan.classList.add('hidden'); modalRiwayat.classList.add('hidden'); modalOverlay.classList.add('hidden'); }
     function getPengaturan() { try { const dataObfuscated = localStorage.getItem(KEY_PENGATURAN); if (!dataObfuscated) return { namaSales: '', nomorWA: '' }; const dataJson = atob(dataObfuscated); return JSON.parse(dataJson); } catch (e) { console.error("Gagal parse pengaturan:", e); localStorage.removeItem(KEY_PENGATURAN); return { namaSales: '', nomorWA: '' }; } }
-    function loadPengaturan() { const settings = getPengaturan(); namaSalesInput.value = settings.namaSales || ''; nomorWaInput.value = settings.nomorWA || ''; }
-    function simpanPengaturan() { const namaSalesDefault = namaSalesInput.value; const nomorWA = nomorWaInput.value; const settings = { namaSales: namaSalesDefault, nomorWA: nomorWA }; try { const dataJson = JSON.stringify(settings); const dataObfuscated = btoa(dataJson); localStorage.setItem(KEY_PENGATURAN, dataObfuscated); alert('Pengaturan berhasil disimpan!'); tutupModal(); } catch (e) { console.error("Gagal simpan pengaturan:", e); alert('Gagal menyimpan pengaturan.'); } }
+    function loadPengaturan() { const settings = getPengaturan(); if (settings.namaSales) { marketingInput.value = settings.namaSales; } namaSalesInput.value = settings.namaSales || ''; nomorWaInput.value = settings.nomorWA || ''; }
+    function simpanPengaturan() { const namaSalesDefault = namaSalesInput.value; const nomorWA = nomorWaInput.value; const settings = { namaSales: namaSalesDefault, nomorWA: nomorWA }; try { const dataJson = JSON.stringify(settings); const dataObfuscated = btoa(dataJson); localStorage.setItem(KEY_PENGATURAN, dataObfuscated); if(namaSalesDefault){ marketingInput.value = namaSalesDefault; } alert('Pengaturan berhasil disimpan!'); tutupModal(); } catch (e) { console.error("Gagal simpan pengaturan:", e); alert('Gagal menyimpan pengaturan.'); } }
     function getRiwayat() { try { const dataObfuscated = localStorage.getItem(KEY_RIWAYAT); if (!dataObfuscated) return []; const dataJson = atob(dataObfuscated); return JSON.parse(dataJson); } catch (e) { console.error("Gagal parse riwayat:", e); localStorage.removeItem(KEY_RIWAYAT); return []; } }
     function simpanKeStorage(riwayat) { try { const dataJson = JSON.stringify(riwayat); const dataObfuscated = btoa(dataJson); localStorage.setItem(KEY_RIWAYAT, dataObfuscated); } catch (e) { console.error("Gagal simpan riwayat:", e); alert('Gagal menyimpan riwayat.'); } }
     function simpanRiwayat(pengajuan) { let riwayat = getRiwayat(); riwayat.unshift(pengajuan); riwayat = riwayat.slice(0, 50); simpanKeStorage(riwayat); }
@@ -232,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function muatDariRiwayat(id) {
         const riwayat = getRiwayat(); const pengajuan = riwayat.find(p => p.id == id); if (!pengajuan) { alert('Error: Riwayat tidak ditemukan.'); return; }
-        document.getElementById('nama-toko').value = pengajuan.namaToko; document.getElementById('wilayah').value = pengajuan.wilayah; document.getElementById('kka').value = pengajuan.kka; document.getElementById('tanggal').value = pengajuan.tanggal;
+        document.getElementById('nama-toko').value = pengajuan.namaToko; document.getElementById('wilayah').value = pengajuan.wilayah; document.getElementById('kka').value = pengajuan.kka; document.getElementById('tanggal').value = pengajuan.tanggal; document.getElementById('marketing').value = pengajuan.marketing;
         itemList.innerHTML = '';
         pengajuan.items.forEach((item, index) => {
             tambahBarang(); const blokBaru = itemList.lastElementChild; const searchInput = blokBaru.querySelector('.nama-barang-search'); const hgInput = blokBaru.querySelector('.harga-grosir'); const hkInput = blokBaru.querySelector('.harga-khusus'); const qtyInput = blokBaru.querySelector('.kuantitas');
@@ -244,8 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- BAGIAN 2: MENGHUBUNGKAN FUNGSI KE TOMBOL ---
-    loginForm.addEventListener('submit', handleLoginSubmit);
-    logoutButton.addEventListener('click', handleLogout);
     formPengajuan.addEventListener('submit', generateTeks);
     tombolCopy.addEventListener('click', copyTeks);
     tombolWA.addEventListener('click', kirimViaWA);
@@ -264,8 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', (e) => { if (!e.target.closest('.search-container')) { document.querySelectorAll('.search-results').forEach(div => { div.classList.add('hidden'); }); } });
 
     // --- INISIALISASI HALAMAN ---
-    const loggedInUser = localStorage.getItem(KEY_SESSION);
-    if (loggedInUser) { showApp(); }
-    else { showLogin(); }
+    tanggalInput.value = getTanggalHariIni();
+    loadPengaturan(); // Load nama sales default & nomor WA ke modal, dan isi nama sales ke form utama
+    loadDatabase();
 
 }); // <-- Kurung kurawal penutup AKHIR
