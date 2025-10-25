@@ -1,8 +1,8 @@
-// File: script.js (V11.1 - Perbaikan Kurung Kurawal)
+// File: script.js (V11.1 - Perbaikan Kurung Kurawal + Koneksi Backend)
 
-// GANTI DENGAN URL BACKEND PYTHONANYWHERE KAMU
+// ##### GANTI DENGAN URL BACKEND PYTHONANYWHERE KAMU #####
 const BACKEND_URL = 'http://Darkky.pythonanywhere.com';
-// GANTI DENGAN LINK GOOGLE SHEET CSV KAMU
+// ##### GANTI DENGAN LINK GOOGLE SHEET CSV KAMU #####
 const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRVm7A6LvL2chRGyir6vqY-4hcgGLCHIeL7WdWb5NkET9aihdc3py86gJfv2GGhPJ8OeyWmVRBUivf2/pub?output=csv';
 
 let databaseProduk = {};
