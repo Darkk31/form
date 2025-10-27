@@ -417,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- (MODIFIKASI) Listener Item List ---
     // Diperbarui untuk mencari .card--item
     itemList.addEventListener('input', (e) => { if (e.target.classList.contains('nama-barang-search')) { const searchTerm = e.target.value; const resultsContainer = e.target.closest('.search-container').querySelector('.search-results'); tampilkanHasilPencarian(searchTerm, resultsContainer); } });
-    itemList.addEventListener('click', (e) => { if (e.target.classList.contains('result-item')) { const selectedValue = e.target.dataset.id; const itemBlock = e.target.closest('.card--item'); /* <-- DIUBAH */ const resultsContainer = e.target.closest('.search-results'); updateTampilanBarang(itemBlock, selectedValue); resultsContainer.classList.add('hidden'); } });
+    itemList.addEventListener('click', (e) => { if (e.target.classList.contains('result-item')) { const selectedValue = e.target.dataset.value; const itemBlock = e.target.closest('.card--item'); /* <-- DIUBAH */ const resultsContainer = e.target.closest('.search-results'); updateTampilanBarang(itemBlock, selectedValue); resultsContainer.classList.add('hidden'); } });
     document.addEventListener('click', (e) => { if (!e.target.closest('.search-container')) { document.querySelectorAll('.search-results').forEach(div => { div.classList.add('hidden'); }); } });
 
     // --- INISIALISASI HALAMAN ---
