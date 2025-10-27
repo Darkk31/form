@@ -1,103 +1,117 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-M">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pengajuan Harga (V10.1)</title>
+    <title>Form Pengajuan (V13.0 - Pixel Mode)</title>
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="header-nav">
-        <button type="button" id="tombol-pengaturan" class="nav-btn">⚙️ Pengaturan</button>
-        <button type="button" id="tombol-riwayat" class="nav-btn">📜 Riwayat</button>
-    </div>
+    <header class="app-header">
+        <h2 class="app-title">Form Pengajuan</h2>
+        <nav class="app-nav">
+            <button type="button" id="tombol-tema" class="btn btn--icon" title="Ganti Tema">☀️</button>
+            <button type="button" id="tombol-pengaturan" class="btn btn--icon" title="Pengaturan">⚙️</button>
+            <button type="button" id="tombol-riwayat" class="btn btn--icon" title="Riwayat">📜</button>
+        </nav>
+    </header>
 
-    <div id="app">
-        <h1>Buat Pengajuan Harga (V10.1)</h1>
-
+    <main class="container">
         <form id="form-pengajuan">
-            <div class="input-grup">
-                <label for="nama-toko">Nama Toko:</label>
-                <input type="text" id="nama-toko" required>
-            </div>
-            <div class="input-grup">
-                <label for="wilayah">Wilayah:</label>
-                <input type="text" id="wilayah" required>
-            </div>
-            <div class="input-grup">
-                <label for="kka">KKA:</label>
-                <input type="text" id="kka" value="Support" required>
-            </div>
-            <div class="input-grup">
-                <label for="tanggal">Tanggal Pengajuan:</label>
-                <input type="text" id="tanggal" required>
-            </div>
-            <div class="input-grup">
-                <label for="marketing">Nama Marketing:</label>
-                <input type="text" id="marketing" placeholder="Isi nama kamu (atur di Pengaturan)" required>
-            </div>
-
-            <hr>
-
-            <h3>Detail Barang:</h3>
-
-            <div id="item-list">
-                <div class="item-block" data-mode="standard">
-                    <h4>Barang 1</h4>
-                    <label>Nama Barang:</label>
-                    <div class="search-container">
-                        <input type="text" class="nama-barang-search" placeholder="Ketik & Pilih Produk...">
-                        <div class="search-results hidden"></div>
-                    </div>
-                    <label>Harga Grosir (HG):</label>
-                    <input type="text" class="harga-grosir" placeholder="Otomatis">
-                    <label>Harga Khusus (HK):</label>
-                    <input type="text" class="harga-khusus" placeholder="Isi HK (Boleh teks & simbol)" required>
-                    <label>Pengambilan (Qty):</label>
-                    <input type="text" class="kuantitas" placeholder="Contoh: 5 dus" required>
-                    <button type="button" class="hapus-barang-btn">Hapus Barang</button>
+            
+            <section class="card">
+                <div class="card__header">
+                    <h3>Info Utama</h3>
                 </div>
-            </div>
+                <div class="card__content">
+                    <div class="input-grup">
+                        <label for="tipe-format">Tipe Format:</label>
+                        <div class="select-wrapper">
+                            <select id="tipe-format">
+                                <option value="hg-hk">Pengajuan V1 (Lengkap HG/HK)</option>
+                                <option value="image-format">Pengajuan V2 (Polos)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-grup">
+                        <label for="nama-toko">Nama Toko:</label>
+                        <input type="text" id="nama-toko" required>
+                    </div>
+                    <div class="input-grup">
+                        <label for="wilayah">Wilayah:</label>
+                        <input type="text" id="wilayah" required>
+                    </div>
+                    <div class="input-grup">
+                        <label for="kka">KKA:</label>
+                        <input type="text" id="kka" value="Support" required>
+                    </div>
+                    <div class="input-grup">
+                        <label for="tanggal">Tanggal Pengajuan:</label>
+                        <input type="text" id="tanggal" required>
+                    </div>
+                    <div class="input-grup">
+                        <label for="marketing">Nama Marketing:</label>
+                        <input type="text" id="marketing" placeholder="Isi nama kamu (atur di Pengaturan)" required>
+                    </div>
+                </div>
+            </section>
 
-            <button type="button" id="tambah-barang-btn">+ Tambah Barang Lain</button>
-            <hr>
-            <button type="submit" id="generate-btn">BUAT TEKS PENGAJUAN</button>
+            <div class="card__header">
+                <h3>Detail Barang</h3>
+            </div>
+            
+            <div id="item-list">
+                </div>
+
+            <button type="button" id="tambah-barang-btn" class="btn btn--secondary">+ Tambah Barang Lain</button>
+            
+            <button type="submit" id="generate-btn" class="btn btn--primary">🚀 BUAT TEKS</button>
         </form>
 
-        <div id="hasil-output">
-            <h3>Hasil Teks (Siap Copy-Paste):</h3>
-            <textarea id="hasil-teks" readonly></textarea>
-            <div class="output-buttons">
-                <button type="button" id="tombol-copy">COPY TEKS</button>
-                <button type="button" id="tombol-whatsapp">KIRIM via WA</button>
+        <section id="hasil-output" class="card hidden">
+            <div class="card__header">
+                <h3>Hasil Teks (Siap Copy)</h3>
             </div>
-        </div>
-    </div>
+            <div class="card__content">
+                <textarea id="hasil-teks" readonly></textarea>
+                <div class="output-buttons">
+                    <button type="button" id="tombol-copy" class="btn btn--icon-text">📋 Copy</button>
+                    <button type="button" id="tombol-whatsapp" class="btn btn--icon-text btn--whatsapp">💬 Kirim WA</button>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <div id="modal-overlay" class="hidden"></div>
+
     <div id="modal-pengaturan" class="modal hidden">
-        <div class="modal-header">
+        <div class="modal__header">
             <h2>Pengaturan Sales</h2>
-            <button type="button" class="tombol-tutup-modal">&times;</button>
+            <button type="button" class="btn-close-modal tombol-tutup-modal">&times;</button>
         </div>
-        <div class="modal-content">
+        <div class="modal__content">
             <label for="nama-sales-default">Nama Sales Default Kamu:</label>
             <input type="text" id="nama-sales-default" placeholder="Ketik nama lengkap kamu">
             <label for="nomor-wa-direktur">Nomor WA Tujuan (Direktur):</label>
             <input type="tel" id="nomor-wa-direktur" placeholder="Contoh: 628123456789">
-            <button type="button" id="simpan-pengaturan-btn">Simpan</button>
+            <button type="button" id="simpan-pengaturan-btn" class="btn btn--primary">Simpan</button>
         </div>
     </div>
+
     <div id="modal-riwayat" class="modal hidden">
-        <div class="modal-header">
+        <div class="modal__header">
             <h2>Riwayat Pengajuan</h2>
-            <button type="button" class="tombol-tutup-modal">&times;</button>
+            <button type="button" class="btn-close-modal tombol-tutup-modal">&times;</button>
         </div>
-        <div class="modal-content">
+        <div class="modal__content">
             <input type="search" id="riwayat-search-input" placeholder="Cari berdasarkan Nama Toko...">
             <div id="riwayat-list"></div>
-            <button type="button" id="hapus-riwayat-btn">Hapus Semua Riwayat</button>
+            <button type="button" id="hapus-riwayat-btn" class="btn btn--danger">Hapus Semua Riwayat</button>
         </div>
     </div>
 
