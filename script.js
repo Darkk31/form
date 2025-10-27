@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 <div class="input-grup">
                     <label>Harga Khusus (HK):</label>
-                    <input type="text" class="harga-khusus" placeholder="Isi HK (Boleh teks & simbol)" required>
+                    <input type="text" class="harga-khusus" placeholder="Isi HK" required>
                 </div>
 
                 <div class="input-grup">
