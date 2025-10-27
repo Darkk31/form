@@ -1,7 +1,601 @@
-/* File: style.css (V10.1 - Tanpa Login) */
-body{font-family:Arial,sans-serif;background-color:#f4f7f6;margin:0;padding:20px;padding-top:80px}.header-nav{position:fixed;top:0;left:0;width:100%;background-color:#333;padding:10px;box-sizing:border-box;display:flex;justify-content:center;gap:10px;z-index:100}.nav-btn{background-color:#555;color:#fff;padding:8px 12px;font-size:14px;width:auto;border-radius:20px}.nav-btn:hover{background-color:#777}#app{max-width:600px;margin:0 auto;background-color:#fff;padding:20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.05)}h1,h3,h4{color:#333;border-bottom:2px solid #eee;padding-bottom:5px}h1{margin-top:0}h4{border-bottom:none;margin-top:0}.input-grup,.item-block{margin-bottom:20px}
-.item-block{border:1px solid #ddd;padding:15px;border-radius:5px;background-color:#fafafa}label{display:block;margin-bottom:5px;font-weight:bold;color:#555;margin-top:10px}input[type=text],input[type=number],input[type=tel],select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box}input[readonly]{background-color:#eee;color:#777;cursor:not-allowed}button{width:100%;padding:12px;border:none;border-radius:4px;font-size:16px;font-weight:bold;cursor:pointer;transition:background-color .2s}#generate-btn{background-color:#007bff;color:#fff;margin-bottom:20px}#generate-btn:hover{background-color:#0056b3}#tambah-barang-btn{background-color:#28a745;color:#fff;margin-top:-10px;margin-bottom:20px}#tambah-barang-btn:hover{background-color:#218838}#tombol-copy{background-color:#17a2b8;color:#fff}#tombol-copy:hover{background-color:#138496}#hasil-output{margin-top:20px}textarea{height:250px;font-family:'Courier New',Courier,monospace;font-size:14px;line-height:1.5;margin-bottom:10px}.hapus-barang-btn{background-color:#dc3545;color:#fff;margin-top:15px;width:auto;padding:8px 15px;font-size:14px}
-.hapus-barang-btn:hover{background-color:#c82333}.hidden{display:none!important}#modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.5);z-index:1000}.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background-color:#fff;padding:20px;border-radius:8px;box-shadow:0 5px 15px rgba(0,0,0,.3);z-index:1001;width:90%;max-width:500px;max-height:80vh;overflow-y:auto}.modal-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:15px}.modal-header h2{margin:0;font-size:20px}
-.tombol-tutup-modal{background:none;border:none;font-size:28px;width:auto;padding:0 5px;color:#888;font-weight:bold}.tombol-tutup-modal:hover{color:#333}.modal-content{font-size:16px}.modal-content label{margin-top:10px}#simpan-pengaturan-btn{background-color:#007bff;color:#fff;margin-top:20px}.search-container{position:relative}.search-results{position:absolute;top:100%;left:0;width:100%;background-color:#fff;border:1px solid #ccc;border-top:none;border-radius:0 0 4px 4px;box-sizing:border-box;max-height:250px;overflow-y:auto;z-index:10;box-shadow:0 4px 8px rgba(0,0,0,.1)}.result-item{padding:12px 10px;cursor:pointer;border-bottom:1px solid #f0f0f0}.result-item:last-child{border-bottom:none}
-.result-item:hover{background-color:#f0f0f0}.result-item[data-value=__custom]{background-color:#f8f9fa;color:#0056b3;font-weight:bold;text-align:center}.output-buttons{display:flex;gap:10px}#tombol-copy{width:auto;flex-grow:1}#tombol-whatsapp{width:auto;flex-grow:1;background-color:#25d366;color:#fff}#tombol-whatsapp:hover{background-color:#1eae50}#riwayat-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}.riwayat-item{padding:15px;border:1px solid #ddd;border-radius:8px;cursor:pointer;transition:all .2s ease;position:relative;background-color:#fdfdfd}.riwayat-item:hover{background-color:#f4f8ff;border-color:#aaccff;box-shadow:0 2px 5px rgba(0,0,0,.05)}.riwayat-info{margin-bottom:10px;padding-right:25px}
-.riwayat-info strong{font-size:18px;color:#0056b3;display:block;margin-bottom:4px}.riwayat-info span{font-size:13px;color:#666;margin-right:12px}.riwayat-item .tombol-hapus-item{position:absolute;top:10px;right:10px;float:none;color:#dc3545;font-weight:bold;font-size:18px;background:none;border:none;width:auto;padding:0 5px}.riwayat-item-list{list-style-type:none;margin:12px 0 0 0;padding:10px 0 0 0;font-size:14px;color:#333;border-top:1px dashed #eee}.riwayat-item-list li{margin-bottom:5px;position:relative;padding-left:15px}.riwayat-item-list li::before{content:'›';position:absolute;left:0;top:0;font-weight:bold;color:#007bff}.riwayat-item-list li strong{font-weight:normal;color:#555;font-size:13px;margin-left:5px}#hapus-riwayat-btn{background-color:#dc3545;color:#fff;width:auto;font-size:14px;padding:8px 15px}#riwayat-search-input{width:100%;padding:10px;border:1px solid #ccc;border-radius:4px;box-sizing:border-box;font-size:16px;margin-bottom:15px}
+/* File: style.css (V13.0 - Pixel Mode & Readable) */
+
+/* ==============================================
+  1. Variabel Tema & Pengaturan Dasar
+   (Ubah warna di sini untuk mengubah tema!)
+============================================== */
+:root {
+  /* Font */
+  --font-family: 'Pixelify Sans', sans-serif;
+
+  /* Warna Utama (Biru) */
+  --color-primary: #007bff;
+  --color-primary-dark: #0056b3;
+  --color-primary-shadow: #004aaa;
+
+  /* Warna Lain */
+  --color-secondary: #6c757d;
+  --color-secondary-shadow: #4a4a4a;
+  --color-danger: #dc3545;
+  --color-danger-shadow: #a71d2a;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-shadow: #1a9c4a;
+
+  /* === Pengaturan Tema (Dua Mode) === */
+
+  /* Tema Light (Default) */
+  --color-bg-light: #f0f4f8;        /* Latar belakang halaman */
+  --color-card-light: #ffffff;      /* Latar belakang kartu */
+  --color-text-light: #212121;      /* Teks utama */
+  --color-border-light: #cccccc;    /* Border input */
+  --color-shadow-light: #aaaaaa;    /* Bayangan tombol */
+
+  /* Tema Dark */
+  --color-bg-dark: #1e1e1e;          /* Latar belakang halaman */
+  --color-card-dark: #2c2c2c;        /* Latar belakang kartu */
+  --color-text-dark: #f0f0f0;        /* Teks utama */
+  --color-border-dark: #555555;      /* Border input */
+  --color-shadow-dark: #000000;      /* Bayangan tombol */
+  
+  /* === Variabel Aktif (Akan ditukar oleh JS) === */
+  --bg: var(--color-bg-light);
+  --card-bg: var(--color-card-light);
+  --text: var(--color-text-light);
+  --border: var(--color-border-light);
+  --shadow: var(--color-shadow-light);
+
+  /* Transisi saat ganti tema */
+  --theme-transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Ini adalah trik untuk Dark Mode */
+body.dark-mode {
+  --bg: var(--color-bg-dark);
+  --card-bg: var(--color-card-dark);
+  --text: var(--color-text-dark);
+  --border: var(--color-border-dark);
+  --shadow: var(--color-shadow-dark);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 80px 15px 40px 15px;
+  transition: var(--theme-transition);
+  
+  /* Ini membuat font terlihat "pixel-perfect" */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: pixelated;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ==============================================
+  2. Header & Layout Utama
+============================================== */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--card-bg);
+  padding: 10px 20px;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--border);
+  transition: var(--theme-transition);
+}
+
+.app-title {
+  margin: 0;
+  font-size: 24px;
+  color: var(--color-primary);
+  /* Animasi flicker sederhana */
+  animation: text-flicker 3s infinite alternate;
+}
+
+@keyframes text-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.app-nav {
+  display: flex;
+  gap: 5px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ==============================================
+  3. Tombol (Pixel Style)
+============================================== */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--text);
+  border-radius: 0; /* Tanpa sudut lengkung */
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-family);
+  text-align: center;
+  
+  /* Animasi Tombol Ditekan */
+  transition: all 0.1s ease;
+  position: relative; /* Untuk animasi 'active' */
+  top: 0;
+  left: 0;
+}
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary-dark);
+  box-shadow: 4px 4px 0px var(--color-primary-shadow);
+}
+.btn--primary:active {
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 0px var(--color-primary-shadow);
+}
+
+.btn--secondary {
+  background-color: var(--card-bg);
+  color: var(--text);
+  border-color: var(--text);
+  box-shadow: 4px 4px 0px var(--shadow);
+}
+.btn--secondary:active {
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 0px var(--shadow);
+}
+
+.btn--danger {
+  background-color: var(--color-danger);
+  color: #fff;
+  border-color: var(--color-danger-shadow);
+  box-shadow: 4px 4px 0px var(--color-danger-shadow);
+  width: auto;
+  font-size: 14px;
+  padding: 8px 15px;
+}
+.btn--danger:active {
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 0px var(--color-danger-shadow);
+}
+
+.btn--icon {
+  background: none;
+  border: none;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  color: var(--text);
+  box-shadow: none; /* Tombol ikon tidak perlu bayangan */
+}
+.btn--icon:hover {
+  transform: scale(1.1);
+}
+.btn--icon:active {
+  transform: scale(0.9);
+  top: 0;
+  left: 0;
+}
+
+.btn--icon-text {
+  width: auto;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-secondary);
+  color: #fff;
+  border-color: var(--color-secondary-shadow);
+  box-shadow: 4px 4px 0px var(--color-secondary-shadow);
+}
+.btn--icon-text:active {
+  top: 4px;
+  left: 4px;
+  box-shadow: 0px 0px 0px var(--color-secondary-shadow);
+}
+
+.btn--whatsapp {
+  background-color: var(--color-whatsapp);
+  border-color: var(--color-whatsapp-shadow);
+  box-shadow: 4px 4px 0px var(--color-whatsapp-shadow);
+}
+.btn--whatsapp:active {
+  box-shadow: 0px 0px 0px var(--color-whatsapp-shadow);
+}
+
+/* Animasi Tombol Loading (Blinking Cursor) */
+#generate-btn[disabled] {
+  background-color: var(--color-secondary);
+  box-shadow: none;
+  top: 4px;
+  left: 4px;
+}
+#generate-btn[disabled]:after {
+  content: '_';
+  animation: blink 1s infinite;
+  font-weight: 700;
+  margin-left: 5px;
+  font-size: 20px;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ==============================================
+  4. Kartu (Pixel Style)
+============================================== */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 0;
+  border: 3px solid var(--text);
+  box-shadow: 6px 6px 0px var(--shadow);
+  overflow: hidden;
+  transition: var(--theme-transition), box-shadow 0.3s ease;
+}
+
+.card__header {
+  padding: 10px 15px;
+  border-bottom: 3px solid var(--text);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card__header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.card__content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ==============================================
+  5. Form & Input (Pixel Style)
+============================================== */
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 700; /* Font pixel lebih tebal */
+  color: var(--text);
+  font-size: 16px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+input[type="search"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid var(--border);
+  border-radius: 0;
+  box-sizing: border-box;
+  font-family: var(--font-family);
+  font-size: 16px;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: var(--theme-transition);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  /* Bayangan fokus dibuat pixelated */
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px var(--color-primary);
+}
+
+textarea {
+  height: 200px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.select-wrapper {
+  position: relative;
+  border: 2px solid var(--text);
+  background-color: var(--card-bg);
+}
+.select-wrapper::after {
+  content: '▼';
+  font-size: 16px;
+  color: var(--text);
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 30px;
+  border: none; /* Border sudah di wrapper */
+  background-color: transparent;
+}
+select:focus {
+  box-shadow: none; /* Fokus di wrapper */
+}
+
+/* ==============================================
+  6. Blok Item Barang
+============================================== */
+#item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.card--item {
+  border: 2px solid var(--border);
+  box-shadow: none; /* Kartu item lebih simpel */
+}
+
+.btn-delete-item {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+  padding: 0 5px;
+  cursor: pointer;
+  width: auto;
+  transition: color 0.2s;
+}
+.btn-delete-item:hover {
+  color: var(--color-danger);
+}
+
+/* Sembunyikan grup HG jika format V2 (Polos) aktif */
+.js-format-polos .grup-hg {
+  display: none;
+}
+
+/* ==============================================
+  7. Search & Output
+============================================== */
+.search-container {
+  position: relative;
+}
+.search-results {
+  position: absolute;
+  top: 100%;
+  left: -2px; /* Ratakan dengan border input */
+  width: calc(100% + 4px); /* Ratakan dengan border input */
+  background-color: var(--card-bg);
+  border: 2px solid var(--text);
+  border-top: none;
+  box-sizing: border-box;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 10;
+  transition: var(--theme-transition);
+}
+.result-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 2px solid var(--border);
+  transition: var(--theme-transition);
+}
+.result-item:last-child {
+  border-bottom: none;
+}
+.result-item:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+.result-item[data-value="__custom"] {
+  background-color: var(--bg);
+  color: var(--color-primary);
+  font-weight: 700;
+  text-align: center;
+}
+.result-item[data-value="__custom"]:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.output-buttons {
+  display: flex;
+  gap: 10px;
+}
+#hasil-output.hidden {
+  display: none;
+}
+
+/* ==============================================
+  8. Modal
+============================================== */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
+#modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--card-bg);
+  border: 3px solid var(--text);
+  box-shadow: 6px 6px 0px var(--shadow);
+  z-index: 1001;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--theme-transition), opacity 0.3s, transform 0.3s;
+}
+.modal.hidden {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  pointer-events: none;
+}
+
+/* Animasi saat modal muncul */
+.modal:not(.hidden) {
+  animation: modal-pop-in 0.2s ease-out;
+}
+@keyframes modal-pop-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--text);
+  padding: 15px 20px;
+}
+.modal__header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.btn-close-modal {
+  background: none;
+  border: none;
+  font-size: 28px;
+  width: auto;
+  padding: 0 5px;
+  color: var(--text);
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn-close-modal:hover {
+  color: var(--color-danger);
+}
+.modal__content {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: var(--bg); /* Latar content modal beda */
+}
+
+/* ==============================================
+  9. Riwayat (Pixel Style)
+============================================== */
+#riwayat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+.riwayat-item {
+  padding: 15px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background-color: var(--card-bg);
+}
+.riwayat-item:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+.riwayat-info {
+  margin-bottom: 10px;
+  padding-right: 25px;
+}
+.riwayat-info strong {
+  font-size: 18px;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: 4px;
+}
+.riwayat-info span {
+  font-size: 14px;
+  color: var(--text);
+  margin-right: 12px;
+}
+.riwayat-item .tombol-hapus-item {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  background: none;
+  border: none;
+  width: auto;
+  padding: 0 5px;
+  color: var(--color-danger);
+  cursor: pointer;
+}
+.riwayat-item-list {
+  list-style-type: none;
+  margin: 12px 0 0 0;
+  padding: 10px 0 0 0;
+  font-size: 14px;
+  color: var(--text);
+  border-top: 2px dashed var(--border);
+}
+.riwayat-item-list li {
+  margin-bottom: 5px;
+  position: relative;
+  padding-left: 15px;
+}
+.riwayat-item-list li::before {
+  content: '>'; /* Panah retro */
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.riwayat-item-list li strong {
+  font-weight: 400;
+  color: var(--text);
+  font-size: 14px;
+  margin-left: 5px;
+}
