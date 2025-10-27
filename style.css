@@ -1,12 +1,14 @@
-/* File: style.css (V13.0 - Pixel Mode & Readable) */
+/* File: style.css (V13.1 - Font Hybrid & Readable) */
 
 /* ==============================================
   1. Variabel Tema & Pengaturan Dasar
    (Ubah warna di sini untuk mengubah tema!)
 ============================================== */
 :root {
-  /* Font */
-  --font-family: 'Pixelify Sans', sans-serif;
+  /* ▼▼▼ MODIFIKASI 1: Mendefinisikan 2 Font ▼▼▼ */
+  --font-family-pixel: 'Pixelify Sans', sans-serif; /* Font untuk Judul/Tombol */
+  --font-family-sans: 'Inter', sans-serif;        /* Font untuk Data/Input */
+  /* ▲▲▲ BATAS MODIFIKASI ▲▲▲ */
 
   /* Warna Utama (Biru) */
   --color-primary: #007bff;
@@ -62,7 +64,10 @@ body.dark-mode {
 }
 
 body {
-  font-family: var(--font-family);
+  /* ▼▼▼ MODIFIKASI 2: Menerapkan font pixel ke body ▼▼▼ */
+  font-family: var(--font-family-pixel);
+  /* ▲▲▲ BATAS MODIFIKASI ▲▲▲ */
+  
   background-color: var(--bg);
   color: var(--text);
   margin: 0;
@@ -134,7 +139,7 @@ body {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  font-family: var(--font-family);
+  font-family: var(--font-family-pixel); /* Font Tombol */
   text-align: center;
   
   /* Animasi Tombol Ditekan */
@@ -289,6 +294,7 @@ label {
   font-weight: 700; /* Font pixel lebih tebal */
   color: var(--text);
   font-size: 16px;
+  /* Font pixel (dari body) sudah pas di sini */
 }
 
 input[type="text"],
@@ -302,8 +308,16 @@ select {
   border: 2px solid var(--border);
   border-radius: 0;
   box-sizing: border-box;
-  font-family: var(--font-family);
-  font-size: 16px;
+  
+  /* ▼▼▼ MODIFIKASI 3: Menerapkan font sans-serif ke input/data ▼▼▼ */
+  font-family: var(--font-family-sans); 
+  font-weight: 500; /* Sedikit tebal agar jelas */
+  font-size: 16px;  /* Pastikan ukuran font tetap */
+  image-rendering: auto; /* Matikan pixelated untuk font ini */
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  /* ▲▲▲ BATAS MODIFIKASI ▲▲▲ */
+
   background-color: var(--bg);
   color: var(--text);
   transition: var(--theme-transition);
@@ -320,7 +334,8 @@ select:focus {
 
 textarea {
   height: 200px;
-  font-family: 'Courier New', Courier, monospace;
+  /* Textarea untuk hasil juga pakai font sans-serif */
+  font-family: var(--font-family-sans); 
 }
 
 .select-wrapper {
@@ -409,6 +424,14 @@ select:focus {
   cursor: pointer;
   border-bottom: 2px solid var(--border);
   transition: var(--theme-transition);
+
+  /* ▼▼▼ MODIFIKASI 4: Ganti font hasil pencarian juga ▼▼▼ */
+  font-family: var(--font-family-sans);
+  font-weight: 500;
+  image-rendering: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  /* ▲▲▲ BATAS MODIFIKASI ▲▲▲ */
 }
 .result-item:last-child {
   border-bottom: none;
@@ -598,4 +621,17 @@ select:focus {
   color: var(--text);
   font-size: 14px;
   margin-left: 5px;
+  /* Font di riwayat juga pakai sans-serif */
+  font-family: var(--font-family-sans);
+  image-rendering: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* Penyesuaian akhir untuk riwayat list item */
+.riwayat-item-list li {
+  font-family: var(--font-family-sans);
+  image-rendering: auto;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
