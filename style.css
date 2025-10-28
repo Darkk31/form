@@ -45,7 +45,7 @@ body { font-family: var(--font-family-pixel); background-color: var(--bg); color
 .btn { width: 100%; padding: 12px; border: 2px solid var(--text); border-radius: 0; font-size: 16px; font-weight: 700; cursor: pointer; font-family: var(--font-family-pixel); text-align: center; transition: all 0.1s ease; position: relative; top: 0; left: 0; }
 .btn--primary { background-color: var(--color-primary); color: #fff; border-color: var(--color-primary-shadow); box-shadow: 4px 4px 0px var(--color-primary-shadow); }
 .btn--primary:active { top: 4px; left: 4px; box-shadow: 0px 0px 0px var(--color-primary-shadow); }
-.btn--secondary { background-color: var(--color-secondary); color: #fff; border-color: var(--color-secondary-shadow); box-shadow: 4px 4px 0px var(--color-secondary-shadow); }
+.btn--secondary { margin-bottom: 10px; background-color: var(--color-secondary); color: #fff; border-color: var(--color-secondary-shadow); box-shadow: 4px 4px 0px var(--color-secondary-shadow); }
 .btn--secondary:active { top: 4px; left: 4px; box-shadow: 0px 0px 0px var(--color-secondary-shadow); }
 .btn--danger { background-color: var(--color-danger); color: #fff; border-color: var(--color-danger-shadow); box-shadow: 4px 4px 0px var(--color-danger-shadow); width: auto; font-size: 14px; padding: 8px 15px; }
 .btn--danger:active { top: 4px; left: 4px; box-shadow: 0px 0px 0px var(--color-danger-shadow); }
